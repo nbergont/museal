@@ -1,0 +1,40 @@
+﻿{% extends 'base.html' %}
+{% block css %}
+    #player {
+         width: 100%;
+        }​
+{% endblock %}
+{% block content %}
+
+	<div class="panel panel-primary">
+	  <div class="panel-heading">
+
+        <audio id="player" controls autoplay>
+            <source id="audio_src" src="/static/{{file.filename}}" type="audio/mpeg">
+            <object>
+                <param name="autostart" value="true">
+                <param name="src" value="/static/{{file.filename}}">
+                <param name="autoplay" value="true">
+                <param name="controller" value="false">
+                <embed src="/static/{{file.filename}}" controller="false" autoplay="true" autostart="true" type="audio/mpeg"></embed>
+            </object>
+        </audio>
+
+	  </div>
+	  <div class="panel-body">
+		<span class="badge">{{file.tag}}</span> {{file.desc}}
+	  </div>
+	</div>
+
+	<nav>
+	  <ul class="pager">
+		{% if file.id > 0 %}
+			<li><a href="/play/{{file.id-1}}"><span class="glyphicon glyphicon-fast-backward"></span> Previous</a></li>
+		{% endif %}
+		<li><a href="/list"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+		{% if file.id < 5 %}
+			<li><a href="/play/{{file.id+1}}"><span class="glyphicon glyphicon-fast-forward"></span> Next</a></li>
+		{% endif %}
+	  </ul>
+	</nav>
+{% endblock %}

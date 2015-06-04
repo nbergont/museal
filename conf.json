@@ -1,0 +1,41 @@
+{
+	"version": "1.0",
+
+	"audiobox": {
+        "home_title": "AudioBox",
+        "hostspot_name": "AudioBox",
+		"theme": "default",
+
+		"admin_login": "admin",
+		"admin_password": "591c11d325e4c241d838d3fa389571d652e1d30244addf65b1486f0a"
+    },
+
+	"sections": [
+		{
+			"label": "section 1",
+			"files": [
+				{ "id": 0, "tag": 1, "label": "Dapibus", "desc": "Dapibus ac facilisis in", "filename": "sd5v186.mp3", "type": "audio", "img": "df46qd54e.jpg"},
+				{ "id": 1, "tag": 2, "label": "Morbi", "desc": "Morbi leo risus", "filename": "5sd4f68.mp3", "type": "audio"},
+				{ "id": 2, "tag": 3, "label": "Vestibulum", "desc": "Vestibulum at eros", "filename": "58dv8zs.mp3", "type": "audio"}
+			]
+		},
+		{
+			"label": "section 2",
+			"files": [
+				{ "id": 3, "tag": 4, "label": "Dapibus", "desc": "Dapibus ac facilisis in", "filename": "sd5v186.mp3", "type": "audio"},
+				{ "id": 4, "tag": 5, "label": "Morbi", "desc": "Morbi leo risus", "filename": "5sd4f68.mp3", "type": "audio"},
+				{ "id": 5, "tag": 6, "label": "Vestibulum", "desc": "Vestibulum at eros", "filename": "58dv8zs.mp3", "type": "audio"},
+                { "id": 6, "tag": 7, "label": "Vestulum", "desc": "Vestilum at eros", "filename": "58dv8zs.mp3", "type": "audio"}
+			]
+		},
+        {
+			"label": "section 3",
+			"files": [
+				{ "id": 3, "tag": 4, "label": "Dapibus", "desc": "Dapibus ac facilisis in", "filename": "sd5v186.mp3", "type": "audio"},
+				{ "id": 4, "tag": 5, "label": "Morbi", "desc": "Morbi leo risus", "filename": "5sd4f68.mp3", "type": "audio"},
+				{ "id": 5, "tag": 6, "label": "Vestibulum", "desc": "Vestibulum at eros", "filename": "58dv8zs.mp3", "type": "audio"},
+                { "id": 6, "tag": 7, "label": "Vestulum", "desc": "Vestilum at eros", "filename": "58dv8zs.mp3", "type": "audio"}
+			]
+		}
+	]
+}

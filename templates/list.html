@@ -1,0 +1,14 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+	{% for section in sections %}
+		<div class="list-group">
+		  <a href="#" class="list-group-item active">
+			<span class="glyphicon glyphicon-info-sign"></span>
+			{{section.label}}
+		  </a>
+		  {% for file in section.files %}
+			<a href="/play/{{file.id}}" class="list-group-item"><span class="glyphicon glyphicon-headphones"></span> {{file.label}}<span class="badge">{{file.tag}}</span></a>
+		  {% endfor %}
+		</div>
+	{% endfor %}
+{% endblock %}
