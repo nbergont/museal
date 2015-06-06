@@ -1,4 +1,37 @@
 ﻿{% extends 'base.html' %}
 {% block content %}
-	TODO
+	<div class="panel panel-primary">
+		<div class="panel-heading">Edit media</div>
+		<div class="panel-body">
+			<form action="/edit/{{file.id}}" method=post class="form-horizontal">
+
+			<div class="form-group">
+				<label for="tag" class="col-sm-2 control-label">Tag</label>
+				<div class="col-sm-10">
+				 <input type="text" name=tag class="form-control" id="tag" value="{{file.tag}}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="label" class="col-sm-2 control-label">Label</label>
+				<div class="col-sm-10">
+				 <input type="text" name=label class="form-control" id="label" value="{{file.label}}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">Description</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" name=description rows="3" id="description">{{file.desc}}</textarea>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+				 <button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			  </div>
+			</form>
+		</div>
+	</div>
 {% endblock %}

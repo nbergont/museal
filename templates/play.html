@@ -10,13 +10,13 @@
 	  <div class="panel-heading">
 
         <audio id="player" controls autoplay>
-            <source id="audio_src" src="/static/{{file.filename}}" type="audio/mpeg">
+            <source id="audio_src" src="/static/media/{{file.filename}}" type="audio/mpeg">
             <object>
                 <param name="autostart" value="true">
-                <param name="src" value="/static/{{file.filename}}">
+                <param name="src" value="/static/media/{{file.filename}}">
                 <param name="autoplay" value="true">
                 <param name="controller" value="false">
-                <embed src="/static/{{file.filename}}" controller="false" autoplay="true" autostart="true" type="audio/mpeg"></embed>
+                <embed src="/static/media/{{file.filename}}" controller="false" autoplay="true" autostart="true" type="audio/mpeg"></embed>
             </object>
         </audio>
 
