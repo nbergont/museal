@@ -28,13 +28,11 @@
 
 	<nav>
 	  <ul class="pager">
-		{% if file.id > 0 %}
+		{% if file.id > 1 %}
 			<li><a href="/play/{{file.id-1}}"><span class="glyphicon glyphicon-fast-backward"></span> Previous</a></li>
 		{% endif %}
 		<li><a href="/list"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		{% if file.id < 5 %}
-			<li><a href="/play/{{file.id+1}}"><span class="glyphicon glyphicon-fast-forward"></span> Next</a></li>
-		{% endif %}
+		<li><a href="/play/{{file.id+1}}"><span class="glyphicon glyphicon-fast-forward"></span> Next</a></li>
 	  </ul>
 	</nav>
 {% endblock %}

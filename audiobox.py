@@ -155,7 +155,7 @@ def remove_page(id):
 					return redirect('admin')
 	return redirect('login')
 	
-@app.route ('/remove_sec/<int:id>')
+@app.route ('/remove_section/<int:id>')
 def remove_sec_page(id):
 	global conf
 	if isAdmin():
@@ -166,6 +166,33 @@ def remove_sec_page(id):
 				conf["sections"].remove(sec)
 				save_conf()
 				return redirect('admin')
+	return redirect('login')
+
+	
+@app.route ('/move_up/<int:id>')
+def move_up_action(id):
+	global conf
+	if isAdmin():
+		for sec in conf["sections"]:
+			files = sec["files"]
+			for i, file in enumerate(files):
+				if file['id'] == id and i > 0:
+					files[i], files[i-1] = files[i-1], files[i]
+					save_conf()
+		return redirect('admin')
+	return redirect('login')
+	
+@app.route ('/move_down/<int:id>')
+def move_down_action(id):
+	global conf
+	if isAdmin():
+		for sec in conf["sections"]:
+			files = sec["files"]
+			for i, file in enumerate(files):
+				if file['id'] == id and i < len(files):
+					files[i], files[i+1] = files[i+1], files[i]
+					save_conf()
+		return redirect('admin')
 	return redirect('login')
 	
 @app.route ('/edit/<int:id>', methods=['GET', 'POST'])

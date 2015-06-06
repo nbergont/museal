@@ -30,7 +30,7 @@
 		<div class="panel-heading">Change login & password</div>
 		<div class="panel-body">
 			{% if audiobox.first_launch %}
-				<div class="alert alert-warning" role="alert">First launch : change your login & password !</div>
+				<div class="alert alert-warning" role="alert">Please change default login & password !</div>
 			{% endif %}
 			<form action="/set_login" method="post" class="form-horizontal">
 			  <div class="form-group">
@@ -80,6 +80,8 @@
 				<td><span class="badge">{{file.tag}}</span></td>
 				<td>{{file.label}}</td>
 				<td class="text-right"> <div class="btn-group btn-group-sm" role="group" aria-label="...">
+					<a href="/move_up/{{file.id}}" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></a>
+					<a href="/move_down/{{file.id}}" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
 					<a href="/remove/{{file.id}}" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a>
 					<a href="/edit/{{file.id}}" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
 					<a href="/play/{{file.id}}" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Play</a>
@@ -92,7 +94,7 @@
 			<td></td>
 			<td class="text-center">
 				<a href="/upload" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload new audio</a>
-				<a href="/remove_section" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove section</a>
+				<a href="/remove_section/{{section.id}}" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove section</a>
 			</td>
 		</tr>
 	  </tbody>
