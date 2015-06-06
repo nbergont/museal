@@ -64,7 +64,8 @@ def hash_password(password):
 	return hashlib.sha224(app.secret_key + password).hexdigest()
 
 def isAdmin():
-	return 'username' in session
+	return session['username'] == conf["audiobox"]["admin_login"]
+	#return 'username' in session
 
 def allowed_ext(filename, ext):
 	return filename.rsplit('.', 1)[1].lower() in ext
@@ -179,6 +180,7 @@ def move_up_action(id):
 				if file['id'] == id and i > 0:
 					files[i], files[i-1] = files[i-1], files[i]
 					save_conf()
+					break
 		return redirect('admin')
 	return redirect('login')
 	
@@ -190,8 +192,10 @@ def move_down_action(id):
 			files = sec["files"]
 			for i, file in enumerate(files):
 				if file['id'] == id and i < len(files):
-					files[i], files[i+1] = files[i+1], files[i]
+					print i
+					files[i+1], files[i] = files[i], files[i+1]
 					save_conf()
+					break
 		return redirect('admin')
 	return redirect('login')
 	
