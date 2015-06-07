@@ -4,25 +4,25 @@
   {
    "files": [
     {
-     "label": "MEDIA_01", 
-     "tag": "1", 
      "filename": "b129934c81694cb588d80c434dbccfd6.mp3", 
+     "tag": "1", 
+     "label": "MEDIA_01", 
      "type": "audio", 
      "id": 1, 
      "desc": "Media 01 description ..."
     }, 
     {
-     "filename": "fb12456a03984df6bf838d5bf7910176.mp3", 
-     "tag": "2", 
      "label": "MEDIA_02", 
+     "tag": "2", 
+     "filename": "fb12456a03984df6bf838d5bf7910176.mp3", 
      "type": "audio", 
      "id": 2, 
-     "desc": "Media 02 description ..."
+     "desc": "Media 02 description ... lulu"
     }, 
     {
-     "label": "MEDIA_03", 
-     "tag": "3", 
      "filename": "8f8973fa2fbc48e990b5d2bbfda46267.mp3", 
+     "tag": "3", 
+     "label": "MEDIA_03", 
      "type": "audio", 
      "id": 3, 
      "desc": "Media 03 description ..."

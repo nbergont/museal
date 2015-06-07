@@ -1,12 +1,9 @@
 ﻿#-------------------------------------------------------------------------------
-# Name:        module1
-# Purpose:
-#
+# Name:        AudioBox
 # Author:      nbergont
-#
 # Created:     12/02/2015
 # Copyright:   (c) nbergont 2015
-# Licence:     <your licence>
+# Licence:     GPL2
 #-------------------------------------------------------------------------------
 
 from flask import Flask, request, render_template, url_for, redirect, session
@@ -22,7 +19,7 @@ app.secret_key = '7b237c9e4e47de2b27a247a3c1a7d7bc'
 app.config['UPLOAD_FOLDER'] = 'static/media'
 
 #*********** GLOBAL FUNCTIONS **************
-conf = {}
+conf = {} #Global json configuration
 def load_conf():
 	global conf
 	conf = json.loads(open(CONF_FILE, 'r').read())
@@ -64,12 +61,11 @@ def hash_password(password):
 	return hashlib.sha224(app.secret_key + password).hexdigest()
 
 def isAdmin():
-	return session['username'] == conf["audiobox"]["admin_login"]
-	#return 'username' in session
+	return 'username' in session and session['username'] == conf["audiobox"]["admin_login"]
 
 def allowed_ext(filename, ext):
 	return filename.rsplit('.', 1)[1].lower() in ext
-		
+
 #*********** SERVER FUNCTIONS **************
 @app.route('/')
 @app.route('/list')
@@ -80,7 +76,6 @@ def list_page():
 
 @app.route ('/play/<int:id>')
 def play_page(id):
-	global conf
 	f = getFile(id)
 	if f :
 		return render_template ('play.html', file=f, title=get_title())
@@ -110,7 +105,7 @@ def login_page():
 	return render_template ('login.html', title=get_title())
 
 @app.route('/logout')
-def logout_page():
+def logout_action():
 	session.pop('username', None)
 	return redirect('list')
 	
@@ -140,11 +135,13 @@ def set_login_post():
 			conf["audiobox"]['first_launch'] = False
 			save_conf()
 			session.pop('username', None)
-		
+		else:
+			return render_template ('error.html', msg='Wrong passwords', title=get_title())
+
 	return redirect('login')
 
 @app.route ('/remove/<int:id>')
-def remove_page(id):
+def remove_action(id):
 	global conf
 	if isAdmin():
 		for sec in conf["sections"]:
@@ -157,7 +154,7 @@ def remove_page(id):
 	return redirect('login')
 	
 @app.route ('/remove_section/<int:id>')
-def remove_sec_page(id):
+def remove_sec_action(id):
 	global conf
 	if isAdmin():
 		for sec in conf["sections"]:
@@ -178,7 +175,7 @@ def move_up_action(id):
 			files = sec["files"]
 			for i, file in enumerate(files):
 				if file['id'] == id and i > 0:
-					files[i], files[i-1] = files[i-1], files[i]
+					files[i], files[i-1] = files[i-1], files[i] #Swap items
 					save_conf()
 					break
 		return redirect('admin')
@@ -192,8 +189,7 @@ def move_down_action(id):
 			files = sec["files"]
 			for i, file in enumerate(files):
 				if file['id'] == id and i < len(files):
-					print i
-					files[i+1], files[i] = files[i], files[i+1]
+					files[i+1], files[i] = files[i], files[i+1] #Swap items
 					save_conf()
 					break
 		return redirect('admin')
@@ -232,7 +228,7 @@ def upload_file_post():
 		file = request.files['file']
 		
 		if file and allowed_ext(file.filename, ['mp3']):
-			filename = uuid.uuid4().hex + '.mp3'
+			filename = uuid.uuid4().hex + '.mp3' #Generate filename
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			
 			for sec in conf["sections"]:
