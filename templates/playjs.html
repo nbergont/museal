@@ -1,17 +1,14 @@
 ﻿{% extends 'base.html' %}
 {% block head %}
     <script src="/static/mediaelement/mediaelement-and-player.min.js"></script>
-    <link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.min.css"/>
+    <link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.css"/>
 {% endblock %}
 {% block css %}
-    #player {
-         width: 100%;
-        }​
 {% endblock %}
 {% block content %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<audio id="player" src="/static/media/{{file.filename}}" type="audio/mp3" controls autoplay style="width:100%"/>
+			<audio id="player" src="/static/media/{{file.filename}}" type="audio/mp3" controls autoplay style="width:100%;"/>
 		</div>
 		<div class="panel-body">
 			<span class="badge">{{file.tag}}</span> {{file.desc}}
