@@ -13,6 +13,12 @@
 		  <script src="{{ url_for('static', filename='js/html5shiv.min.js') }}"></script>
 		  <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
 		<![endif]-->
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    	<!-- Include all compiled plugins (below), or include individual files as needed -->
+    	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+        {% block head %}{% endblock %}
 	</head>
 	<body>
 	<style type="text/css">
@@ -36,9 +42,6 @@
 		Powered by AudioBox©
 		</div>
 	</footer>
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
   </body>
 </html>

@@ -78,7 +78,7 @@ def list_page():
 def play_page(id):
 	f = getFile(id)
 	if f :
-		return render_template ('play.html', file=f, title=get_title())
+		return render_template ('playjs.html', file=f, title=get_title())
 	return redirect('list')
 
 

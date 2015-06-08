@@ -1,11 +1,17 @@
 ﻿{% extends 'base.html' %}
+{% block head %}
+    <script src="/static/mediaelement/mediaelement-and-player.min.js"></script>
+    <link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.min.css"/>
+{% endblock %}
 {% block css %}
-      .audiojs {width: 100%; background: #404040;}
+    #player {
+         width: 100%;
+        }​
 {% endblock %}
 {% block content %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<audio src="/static/media/{{file.filename}}" preload="auto" autoplay="autoplay"/>
+			<audio id="player" src="/static/media/{{file.filename}}" type="audio/mp3" controls autoplay style="width:100%"/>
 		</div>
 		<div class="panel-body">
 			<span class="badge">{{file.tag}}</span> {{file.desc}}
@@ -22,10 +28,7 @@
 			<li><a href="/list"><span class="glyphicon glyphicon-home"></span> Home</a></li>
 		</ul>
 	</nav>
-	<script src="/static/audiojs/audio.min.js"></script>
-	<script>
-	  audiojs.events.ready(function() {
-		var as = audiojs.createAll();
-	  });
-	</script>
+    <script>
+        $('audio,video').mediaelementplayer({audioWidth: -1});
+    </script>
 {% endblock %}
