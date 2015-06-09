@@ -1,5 +1,5 @@
 # AudioBox
-![Logo](http://img15.hostingpics.net/pics/883759icon.png)
+![Logo](https://raw.githubusercontent.com/nbergont/audiobox/master/icon.png)
 
 ## What is AudioBox ?
 This is a Raspberry Pi projet for lowcost wifi audioguide (for museum).<br>
