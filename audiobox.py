@@ -252,6 +252,11 @@ def add_section_post():
 		save_conf()
 	return redirect('admin')
 
+#Global url redirection
+@app.route('/<path:url>')
+def redirect_page(url):
+	return redirect('list')
+
 #*********** MAIN **************
 if __name__ == '__main__':
 	load_conf()
