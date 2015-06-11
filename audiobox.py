@@ -40,6 +40,22 @@ def getFile(id):
 				return file
 	return None
 
+def getNextFileId(tag):
+	global conf
+	for sec in conf["sections"]:
+		for file in sec["files"]:
+			if file['tag'] == tag+1:
+				return file['id']
+	return None
+
+def getPreviousFileId(tag):
+	global conf
+	for sec in conf["sections"]:
+		for file in sec["files"]:
+			if file['tag'] == tag-1:
+				return file['id']
+	return None
+
 def genSecId():
 	global conf
 	id = 0
@@ -78,7 +94,7 @@ def list_page():
 def play_page(id):
 	f = getFile(id)
 	if f :
-		return render_template ('playjs.html', file=f, title=get_title())
+		return render_template ('playjs.html', file=f, next_id=getNextFileId(f["tag"]), previous_id=getPreviousFileId(f["tag"]), title=get_title())
 	return redirect('list')
 
 
@@ -147,7 +163,9 @@ def remove_action(id):
 		for sec in conf["sections"]:
 			for file in sec["files"]:
 				if id == file['id']:
-					os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file['filename']))
+					filename = os.path.join(app.config['UPLOAD_FOLDER'], file['filename'])
+					if os.path.exists(filename):
+						os.remove(filename)
 					sec["files"].remove(file)
 					save_conf()
 					return redirect('admin')
@@ -160,7 +178,9 @@ def remove_sec_action(id):
 		for sec in conf["sections"]:
 			if id == sec['id']:
 				for file in sec["files"]:
-					os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file['filename']))
+					filename = os.path.join(app.config['UPLOAD_FOLDER'], file['filename'])
+					if os.path.exists(filename):
+						os.remove(filename)
 				conf["sections"].remove(sec)
 				save_conf()
 				return redirect('admin')
@@ -201,7 +221,7 @@ def edit_page(id):
 	if isAdmin():
 		f=getFile(id)
 		if request.method == 'POST':
-			f['tag'] = request.form['tag']
+			f['tag'] = int(request.form['tag'])
 			f['label'] = request.form['label']
 			f['desc'] = request.form['description']
 			save_conf()
@@ -222,7 +242,7 @@ def upload_file_post():
 	global conf
 	if isAdmin() and request.method == 'POST':
 		section_id = int(request.form['section_id'])
-		tag = request.form['tag']
+		tag = int(request.form['tag'])
 		label = request.form['label']
 		description = request.form['description']
 		file = request.files['file']
@@ -252,14 +272,15 @@ def add_section_post():
 		save_conf()
 	return redirect('admin')
 
-#Global url redirection
-@app.route('/<path:url>')
+#Global redirection
+@app.route('/<path:url>', methods=['GET', 'POST'])
 def redirect_page(url):
 	return redirect('list')
 
+
 #*********** MAIN **************
+load_conf()
 if __name__ == '__main__':
-	load_conf()
 	app.run(debug=True, port=80)
 	#app.run(debug=True, host='0.0.0.0', port=80, threaded=True)
 

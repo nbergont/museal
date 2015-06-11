@@ -1,9 +1,17 @@
 ﻿{% extends 'base.html' %}
 {% block head %}
     <script src="/static/mediaelement/mediaelement-and-player.min.js"></script>
-    <link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.css"/>
+    <link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.min.css"/>
 {% endblock %}
 {% block css %}
+	.mejs-container {
+		background: transparent;
+	}
+
+	.mejs-container .mejs-controls {
+		background:transparent;
+	}
+
 {% endblock %}
 {% block content %}
 	<div class="panel panel-primary">
@@ -16,16 +24,16 @@
 	</div>
 	<nav>
 		<ul class="pager">
-			<!--
-			{% if file.id > 1 %}
-				<li><a href="/play/{{file.id-1}}"><span class="glyphicon glyphicon-fast-backward"></span> Previous</a></li>
+			{% if previous_id %}
+				<li><a href="/play/{{previous_id}}"><span class="glyphicon glyphicon-fast-backward"></span> Previous</a></li>
 			{% endif %}
-			<li><a href="/play/{{file.id+1}}"><span class="glyphicon glyphicon-fast-forward"></span> Next</a></li>
-			-->
 			<li><a href="/list"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+			{% if next_id %}
+			<li><a href="/play/{{next_id}}"><span class="glyphicon glyphicon-fast-forward"></span> Next</a></li>
+			{% endif %}
 		</ul>
 	</nav>
     <script>
-        $('audio,video').mediaelementplayer({audioWidth: -1});
+        $('audio,video').mediaelementplayer();
     </script>
 {% endblock %}

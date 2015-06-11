@@ -24,13 +24,13 @@
 	</div>
 	<nav>
 		<ul class="pager">
-			<!--
-			{% if file.id > 1 %}
-				<li><a href="/play/{{file.id-1}}"><span class="glyphicon glyphicon-fast-backward"></span> Previous</a></li>
+			{% if previous_id %}
+				<li><a href="/play/{{previous_id}}"><span class="glyphicon glyphicon-fast-backward"></span> Previous</a></li>
 			{% endif %}
-			<li><a href="/play/{{file.id+1}}"><span class="glyphicon glyphicon-fast-forward"></span> Next</a></li>
-			-->
 			<li><a href="/list"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+			{% if next_id %}
+			<li><a href="/play/{{next_id}}"><span class="glyphicon glyphicon-fast-forward"></span> Next</a></li>
+			{% endif %}
 		</ul>
 	</nav>
 {% endblock %}

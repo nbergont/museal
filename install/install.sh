@@ -17,7 +17,9 @@ apt-get install firmware-ralink hostapd dnsmasq -y
 
 #python stuff
 apt-get install python python-pip -y
-pip install flask #tornado qrcode pillow
+pip install flask tornado #tornado qrcode pillow
+
+sudo apt-get install build-essential python-dev
 
 #ETC conf
 #cp -r etc/* /etc
