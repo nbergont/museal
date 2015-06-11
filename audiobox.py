@@ -29,6 +29,8 @@ def load_conf():
 def save_conf():
 	global conf
 	open(CONF_FILE, 'w').write(json.dumps(conf, indent=True))
+	if hasattr(os, 'sync'):
+		os.sync()
 
 def change_hostapd_ssid(name):
 	if os.path.exists(HOSTAPD_FILE):
