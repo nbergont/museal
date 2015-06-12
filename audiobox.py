@@ -1,4 +1,4 @@
-﻿#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # Name:        AudioBox
 # Author:      nbergont
 # Created:     12/02/2015
@@ -11,8 +11,10 @@ import json
 import uuid
 import hashlib
 import os
+import re
 
 CONF_FILE = 'conf.json'
+HOSTAPD_FILE = '/etc/hostapd/hostapd.conf'
 
 app = Flask("audiobox")
 app.secret_key = '7b237c9e4e47de2b27a247a3c1a7d7bc'
@@ -27,6 +29,11 @@ def load_conf():
 def save_conf():
 	global conf
 	open(CONF_FILE, 'w').write(json.dumps(conf, indent=True))
+
+def change_hostapd_ssid(name):
+	if os.path.exists(HOSTAPD_FILE):
+		str_file = re.sub(r'ssid=.*', 'ssid='+name, open(HOSTAPD_FILE, 'r').read())
+		open(HOSTAPD_FILE, 'w').write(str_file)
 
 def get_title():
 	global conf
@@ -81,6 +88,7 @@ def isAdmin():
 
 def allowed_ext(filename, ext):
 	return filename.rsplit('.', 1)[1].lower() in ext
+	
 
 #*********** SERVER FUNCTIONS **************
 @app.route('/')
@@ -132,6 +140,7 @@ def set_options_post():
 	if isAdmin() and request.method == 'POST':
 		conf["audiobox"]['home_title'] = request.form['home_title']
 		conf["audiobox"]['hostspot_name'] = request.form['hostspot_name']
+		change_hostapd_ssid(conf["audiobox"]['hostspot_name'])
 		save_conf()
 
 	return redirect('admin')
