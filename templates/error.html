@@ -1,4 +1,4 @@
 ﻿{% extends 'base.html' %}
 {% block content %}
-    <div class="alert alert-danger" role="alert">{{msg}}</div>
+    <div class="alert alert-danger" role="alert">{{msg|safe}}</div>
 {% endblock %}

@@ -14,6 +14,7 @@ import os
 import re
 
 CONF_FILE = 'conf.json'
+DEFAULT_CONF_FILE = 'default_conf.json'
 HOSTAPD_FILE = '/etc/hostapd/hostapd.conf'
 
 app = Flask("audiobox")
@@ -24,7 +25,11 @@ app.config['UPLOAD_FOLDER'] = 'static/media'
 conf = {} #Global json configuration
 def load_conf():
 	global conf
-	conf = json.loads(open(CONF_FILE, 'r').read())
+	if os.path.exists(CONF_FILE):
+		conf = json.loads(open(CONF_FILE, 'r').read())
+	else: #First loading
+		conf = json.loads(open(DEFAULT_CONF_FILE, 'r').read())
+		save_conf()
 
 def save_conf():
 	global conf
@@ -90,14 +95,17 @@ def isAdmin():
 
 def allowed_ext(filename, ext):
 	return filename.rsplit('.', 1)[1].lower() in ext
-	
+
 
 #*********** SERVER FUNCTIONS **************
 @app.route('/')
 @app.route('/list')
 def list_page():
 	global conf
-	return render_template ('list.html', sections=conf["sections"], title=get_title())
+	if conf["sections"] :
+		return render_template ('list.html', sections=conf["sections"], title=get_title())
+	else:
+		return render_template ('error.html', msg='Go to <a href="/admin">admin page</a> to add new media', title=get_title())
 
 
 @app.route ('/play/<int:id>')
