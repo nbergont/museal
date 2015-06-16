@@ -1,11 +1,11 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          audiobox
+# Provides:          musela
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: audiobox
+# Short-Description: musela
 # Description:       This file should be used to construct scripts to be
 #                    placed in /etc/init.d.
 ### END INIT INFO
@@ -14,11 +14,11 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="AudioBox service"
-NAME=audiobox
+DESC="MUSELA service"
+NAME=musela
 DAEMON=/usr/bin/python
 DAEMON_ARGS="tornado_server.py"
-CHDIR=/root/audiobox
+CHDIR=/root/musela
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 

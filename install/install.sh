@@ -4,26 +4,21 @@
 #Connect with putty (login : root  password : raspberry)
 
 apt-get update
-#apt-get install git rpi-update
 
 #usefull tools 
-apt-get install nano raspi-config  -y
+apt-get install nano raspi-config rpi-update git -y
 
 raspi-config
-#reboot
+#Expand filesystem
+reboot
 
 #Captive portal tools
 apt-get install firmware-ralink hostapd dnsmasq -y
 
 #python stuff
-apt-get install python python-pip -y
-pip install flask tornado #tornado qrcode pillow
-
-sudo apt-get install build-essential python-dev
+apt-get install python python-pip build-essential python-dev -y
+pip install flask tornado #qrcode pillow
 
 #ETC conf
 #cp -r etc/* /etc
-#update-rc.d audiobox defaults 
-
-#http://www.htpcguides.com/lightweight-raspbian-distro-minibian-initial-setup/
-#http://lookingfora.name/2012/12/08/raspberry-pi-creer-un-point-dacces-wifi-avec-portail-captif/
+#update-rc.d musela defaults 

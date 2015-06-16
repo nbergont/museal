@@ -1,10 +1,10 @@
-# AudioBox
-![Logo](https://raw.githubusercontent.com/nbergont/audiobox/master/icon.png)
+# MUSELA
+![Logo](https://raw.githubusercontent.com/nbergont/musela/master/icon.png)
 
-## What is AudioBox ?
+## What is MUSELA ?
 This is a Raspberry Pi projet for lowcost wifi audioguide (for museum).<br>
 Visitor use their smartphone to :
-- Connect to AudioBox wifi hotspot (open network)
+- Connect to MUSELA wifi hotspot (open network)
 - Open web browser and open or reload any page
 - Select media and listen
 
@@ -17,7 +17,7 @@ Visitor use their smartphone to :
 - Easy way :
  - Download complete system image : TODO
  - Write on SD card (use http://sourceforge.net/projects/win32diskimager/)
- - Boot up Raspberry Pi and connect to AudioBox Wifi hotspot
+ - Boot up Raspberry Pi and connect to MUSELA Wifi hotspot
  - Go to "/admin" page (login : admin , password : admin)
  - Configure options (don't forget to change password & login)
  - Add new section & media

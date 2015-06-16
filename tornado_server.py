@@ -1,4 +1,4 @@
-from audiobox import app
+from server import app
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop

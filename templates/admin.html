@@ -1,6 +1,6 @@
 ﻿{% extends 'base.html' %}
 {% block content %}
-	<h3>AudioBox options</h3>
+	<h3>General options</h3>
 	<div class="panel panel-primary">
 		<div class="panel-heading">Global</div>
 		<div class="panel-body">
@@ -8,13 +8,13 @@
 			  <div class="form-group">
 				<label for="home_title" class="col-sm-2 control-label">Home title</label>
 				<div class="col-sm-10">
-				  <input type="text" name=home_title class="form-control" id="home_title" value="{{audiobox.home_title}}">
+				  <input type="text" name=home_title class="form-control" id="home_title" value="{{options.home_title}}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="hostspot_name" class="col-sm-2 control-label">Hotspot name</label>
 				<div class="col-sm-10">
-				  <input type="text" name=hostspot_name class="form-control" id="hostspot_name" value="{{audiobox.hostspot_name}}">
+				  <input type="text" name=hostspot_name class="form-control" id="hostspot_name" value="{{options.hostspot_name}}">
 				</div>
 			  </div>
 			  <div class="form-group">
@@ -29,14 +29,14 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading">Change login & password</div>
 		<div class="panel-body">
-			{% if audiobox.first_launch %}
+			{% if options.first_launch %}
 				<div class="alert alert-warning" role="alert">Please change default login & password !</div>
 			{% endif %}
 			<form action="/set_login" method="post" class="form-horizontal">
 			  <div class="form-group">
 				<label for="login" class="col-sm-2 control-label">Login</label>
 				<div class="col-sm-10">
-				  <input type="text" name=login class="form-control" id="login" value="{{audiobox.login}}">
+				  <input type="text" name=login class="form-control" id="login" value="{{options.login}}">
 				</div>
 			</div>
 			<div class="form-group">

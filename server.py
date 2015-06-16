@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Name:        AudioBox
+# Name:        MUSELA
 # Author:      nbergont
 # Created:     12/02/2015
 # Copyright:   (c) nbergont 2015
@@ -17,7 +17,7 @@ CONF_FILE = 'conf.json'
 DEFAULT_CONF_FILE = 'default_conf.json'
 HOSTAPD_FILE = '/etc/hostapd/hostapd.conf'
 
-app = Flask("audiobox")
+app = Flask("MUSELA")
 app.secret_key = '7b237c9e4e47de2b27a247a3c1a7d7bc'
 app.config['UPLOAD_FOLDER'] = 'static/media'
 
@@ -44,7 +44,7 @@ def change_hostapd_ssid(name):
 
 def get_title():
 	global conf
-	return conf["audiobox"]["home_title"]
+	return conf["options"]["home_title"]
 
 def getFile(id):
 	global conf
@@ -91,7 +91,7 @@ def hash_password(password):
 	return hashlib.sha224(app.secret_key + password).hexdigest()
 
 def isAdmin():
-	return 'username' in session and session['username'] == conf["audiobox"]["admin_login"]
+	return 'username' in session and session['username'] == conf["options"]["admin_login"]
 
 def allowed_ext(filename, ext):
 	return filename.rsplit('.', 1)[1].lower() in ext
@@ -105,7 +105,7 @@ def list_page():
 	if conf["sections"] :
 		return render_template ('list.html', sections=conf["sections"], title=get_title())
 	else:
-		return render_template ('error.html', msg='Go to <a href="/admin">admin page</a> to add new media', title=get_title())
+		return render_template ('info.html', msg='Go to <a href="/admin">admin page</a> to add new media', title=get_title())
 
 
 @app.route ('/play/<int:id>')
@@ -120,7 +120,7 @@ def play_page(id):
 def admin_page():
 	global conf
 	if isAdmin():
-		return render_template ('admin.html', audiobox=conf["audiobox"], sections=conf["sections"], title=get_title())
+		return render_template ('admin.html', options=conf["options"], sections=conf["sections"], title=get_title())
 	return redirect('login')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -130,7 +130,7 @@ def login_page():
 		username = request.form['username']
 		password = request.form['password']
 
-		if username == conf["audiobox"]['admin_login'] and hash_password(password) == conf["audiobox"]['admin_password']:
+		if username == conf["options"]['admin_login'] and hash_password(password) == conf["options"]['admin_password']:
 			session['username'] = username
 			return redirect('admin')
 		else :
@@ -148,9 +148,9 @@ def logout_action():
 def set_options_post():
 	global conf
 	if isAdmin() and request.method == 'POST':
-		conf["audiobox"]['home_title'] = request.form['home_title']
-		conf["audiobox"]['hostspot_name'] = request.form['hostspot_name']
-		change_hostapd_ssid(conf["audiobox"]['hostspot_name'])
+		conf["options"]['home_title'] = request.form['home_title']
+		conf["options"]['hostspot_name'] = request.form['hostspot_name']
+		change_hostapd_ssid(conf["options"]['hostspot_name'])
 		save_conf()
 
 	return redirect('admin')
@@ -165,9 +165,9 @@ def set_login_post():
 		password2 = request.form['password2']
 
 		if password1 == password2:
-			conf["audiobox"]['admin_login'] = login
-			conf["audiobox"]['admin_password'] = hash_password(password1)
-			conf["audiobox"]['first_launch'] = False
+			conf["options"]['admin_login'] = login
+			conf["options"]['admin_password'] = hash_password(password1)
+			conf["options"]['first_launch'] = False
 			save_conf()
 			session.pop('username', None)
 		else:
