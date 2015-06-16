@@ -2,7 +2,8 @@
 ![Logo](https://raw.githubusercontent.com/nbergont/musela/master/icon.png)
 
 ## What is MUSELA ?
-This is a Raspberry Pi projet for lowcost wifi audioguide (for museum).<br>
+MUSELA mean MUSEum Lowcost Audioguide.<br>
+This projet use Raspberry Pi to serve audio files over Wifi.<br>
 Visitor use their smartphone to :
 - Connect to MUSELA wifi hotspot (open network)
 - Open web browser and open or reload any page
@@ -32,12 +33,13 @@ Visitor use their smartphone to :
 - Python Flask (http://flask.pocoo.org/)
 - BootStrap (http://getbootstrap.com/)
 - MINIBIAN (https://minibianpi.wordpress.com/)
+- mediaelement (http://mediaelementjs.com/)
 
 ## TODO list :
 - [x] Web application to list & play media (for users)
 - [x] Web admin for managing media & options
 - [ ] Complete system image for beginner
 - [ ] Automatic system configuration script
-- [ ] Wifi hostname change
+- [x] Wifi hostname change
 - [ ] QRcode functions (Visitor scan QRcode to obtain media)
 - [ ] Customisation (theme, colors ...)
