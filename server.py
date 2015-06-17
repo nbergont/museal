@@ -6,7 +6,7 @@
 # Licence:     GPL2
 #-------------------------------------------------------------------------------
 
-from flask import Flask, request, render_template, url_for, redirect, session
+from flask import Flask, request, render_template, url_for, redirect, session, send_file
 import json
 import uuid
 import hashlib
@@ -16,25 +16,25 @@ import re
 CONF_FILE = 'conf.json'
 DEFAULT_CONF_FILE = 'default_conf.json'
 HOSTAPD_FILE = '/etc/hostapd/hostapd.conf'
-
-app = Flask("MUSELA")
-app.secret_key = '7b237c9e4e47de2b27a247a3c1a7d7bc'
-app.config['UPLOAD_FOLDER'] = 'static/media'
+app = Flask('MUSELA')
+conf = {} #Global json configuration
 
 #*********** GLOBAL FUNCTIONS **************
-conf = {} #Global json configuration
 def load_conf():
 	global conf
 	if os.path.exists(CONF_FILE):
 		conf = json.loads(open(CONF_FILE, 'r').read())
-	else: #First loading
+	else: #First loading : generate new file
 		conf = json.loads(open(DEFAULT_CONF_FILE, 'r').read())
+		app.secret_key = uuid.uuid4().hex #Generate app secret key
+		conf['secret_key'] = app.secret_key
+		conf['options']['admin_password'] = hash_password('admin') #Create default password
 		save_conf()
 
 def save_conf():
 	global conf
 	open(CONF_FILE, 'w').write(json.dumps(conf, indent=True))
-	if hasattr(os, 'sync'):
+	if hasattr(os, 'sync'): #Prevent filesystem error on RPI
 		os.sync()
 
 def change_hostapd_ssid(name):
@@ -91,11 +91,19 @@ def hash_password(password):
 	return hashlib.sha224(app.secret_key + password).hexdigest()
 
 def isAdmin():
-	return 'username' in session and session['username'] == conf["options"]["admin_login"]
+	return 'login' in session and session['login'] == conf["options"]["admin_login"]
+
+def logout_admin():
+	session.pop('login', None)
 
 def allowed_ext(filename, ext):
 	return filename.rsplit('.', 1)[1].lower() in ext
 
+#*********** SERVEUR INIT **************
+
+load_conf() #Load config file
+app.secret_key = conf['secret_key']
+app.config['UPLOAD_FOLDER'] = 'static/media'
 
 #*********** SERVER FUNCTIONS **************
 @app.route('/')
@@ -105,7 +113,7 @@ def list_page():
 	if conf["sections"] :
 		return render_template ('list.html', sections=conf["sections"], title=get_title())
 	else:
-		return render_template ('info.html', msg='Go to <a href="/admin">admin page</a> to add new media', title=get_title())
+		return render_template ('info.html', msg='Go to <a href="/admin">admin page</a> to add new audio media', title=get_title())
 
 
 @app.route ('/play/<int:id>')
@@ -127,20 +135,20 @@ def admin_page():
 def login_page():
 	global conf
 	if request.method == 'POST':
-		username = request.form['username']
+		login = request.form['login']
 		password = request.form['password']
 
-		if username == conf["options"]['admin_login'] and hash_password(password) == conf["options"]['admin_password']:
-			session['username'] = username
+		if login == conf["options"]['admin_login'] and hash_password(password) == conf["options"]['admin_password']:
+			session['login'] = login
 			return redirect('admin')
 		else :
-			return render_template ('error.html', msg='Wrong password or username', title=get_title())
+			return render_template ('error.html', msg='Wrong password or login', title=get_title())
 
 	return render_template ('login.html', title=get_title())
 
 @app.route('/logout')
 def logout_action():
-	session.pop('username', None)
+	logout_admin()
 	return redirect('list')
 
 
@@ -169,7 +177,7 @@ def set_login_post():
 			conf["options"]['admin_password'] = hash_password(password1)
 			conf["options"]['first_launch'] = False
 			save_conf()
-			session.pop('username', None)
+			logout_admin()
 		else:
 			return render_template ('error.html', msg='Wrong passwords', title=get_title())
 
@@ -291,6 +299,21 @@ def add_section_post():
 		save_conf()
 	return redirect('admin')
 
+
+#QRCode generator
+@app.route('/qrcode/<int:id>')
+def get_qrcode(id):
+	try:
+		import qrcode
+		import StringIO
+	except ImportError:
+		return render_template ('error.html', msg='No QRCode module', title=get_title())
+	img = qrcode.make('www.musela.org/play/' + str(id))
+	img_io = StringIO.StringIO()
+	img.save(img_io, 'PNG')
+	img_io.seek(0)
+	return send_file(img_io, mimetype='image/png')
+
 #Global redirection
 @app.route('/<path:url>', methods=['GET', 'POST'])
 def redirect_page(url):
@@ -298,7 +321,6 @@ def redirect_page(url):
 
 
 #*********** MAIN **************
-load_conf()
 if __name__ == '__main__':
 	app.run(debug=True, port=80)
 	#app.run(debug=True, host='0.0.0.0', port=80, threaded=True)
