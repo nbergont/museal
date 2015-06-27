@@ -16,7 +16,7 @@ import re
 CONF_FILE = 'conf.json'
 DEFAULT_CONF_FILE = 'default_conf.json'
 HOSTAPD_FILE = '/etc/hostapd/hostapd.conf'
-app = Flask('MUSELA')
+app = Flask('MUSEAL')
 conf = {} #Global json configuration
 
 #*********** GLOBAL FUNCTIONS **************
@@ -308,7 +308,7 @@ def get_qrcode(id):
 		import StringIO
 	except ImportError:
 		return render_template ('error.html', msg='No QRCode module', title=get_title())
-	img = qrcode.make('www.musela.org/play/' + str(id))
+	img = qrcode.make('www.museal.org/play/' + str(id))
 	img_io = StringIO.StringIO()
 	img.save(img_io, 'PNG')
 	img_io.seek(0)

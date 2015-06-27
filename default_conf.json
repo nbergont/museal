@@ -2,10 +2,10 @@
  "version": "1.0",
  "sections": [],
  "options": {
-  "hostspot_name": "MUSELA", 
+  "hostspot_name": "MUSEAL", 
   "first_launch": true, 
   "admin_login": "admin", 
-  "home_title": "MUSELA", 
+  "home_title": "MUSEAL", 
   "theme": "default", 
   "admin_password": ""
  }

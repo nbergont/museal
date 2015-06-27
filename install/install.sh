@@ -21,4 +21,4 @@ pip install flask tornado #qrcode pillow
 
 #ETC conf
 #cp -r etc/* /etc
-#update-rc.d musela defaults 
+#update-rc.d museal defaults 

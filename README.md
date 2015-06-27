@@ -1,8 +1,8 @@
-# MUSELA
-![Logo](https://raw.githubusercontent.com/nbergont/musela/master/icon.png)
+# MUSEAL
+![Logo](https://raw.githubusercontent.com/nbergont/museal/master/icon.png)
 
-## What is MUSELA ?
-MUSELA mean MUSEum Lowcost Audioguide.<br>
+## What is MUSEAL ?
+MUSEAL mean MUSEum Audioguide Lowcost.<br>
 Raspberry Pi is used to serve audio files over Wifi (with hotspot captive portal).<br>
 Visitor are able to use their smartphone to :
 - Connect to wifi hotspot (open network)
@@ -19,7 +19,7 @@ Visitor are able to use their smartphone to :
 - Easy way :
  - Download complete system image : TODO
  - Write on SD card (use http://sourceforge.net/projects/win32diskimager/)
- - Boot up Raspberry Pi and connect your smarphone to "MUSELA" Wifi hotspot
+ - Boot up Raspberry Pi and connect your smarphone to "MUSEAL" Wifi hotspot
  - Open web browser and open or reload any web adress
  - Go to "/admin" page (defaut login : "admin" , defaut password : "admin")
  - Configure your options (don't forget to change login & password)
