@@ -17,7 +17,7 @@ Visitor are able to use their smartphone to :
 
 ## How to use it ?
 - Easy way :
- - Download complete system image : TODO
+ - Download last system image : https://github.com/nbergont/museal/releases
  - Write on SD card (use http://sourceforge.net/projects/win32diskimager/)
  - Boot up Raspberry Pi and connect your smarphone to "MUSEAL" Wifi hotspot
  - Open web browser and open or reload any web adress
@@ -42,7 +42,7 @@ Visitor are able to use their smartphone to :
 - [x] Web application to list & play media (for users)
 - [x] Web admin for managing media & options
 - [x] Wifi hostname change
-- [ ] Complete system image for beginner
+- [x] Complete system image for beginner
 - [ ] Check if complete system image work on Raspberry 2 (it should work)
 - [ ] QRcode functions (Visitor scan QRcode to obtain media)
 - [ ] Customisation (theme, colors ...)
