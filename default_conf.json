@@ -7,6 +7,7 @@
   "admin_login": "admin", 
   "home_title": "MUSEAL", 
   "theme": "default", 
-  "admin_password": ""
+  "admin_password": "",
+  "native_html5_audio": false
  }
 }

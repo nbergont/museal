@@ -1,7 +1,8 @@
 ﻿{% extends 'base.html' %}
 {% block head %}
-    <script src="/static/mediaelement/mediaelement-and-player.min.js"></script>
-    <link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.min.css"/>
+	<script src="/static/mediaelement/mediaelement-and-player.min.js"></script>
+	<link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.min.css"/>
+	
 {% endblock %}
 {% block css %}
 	.mejs-container {
@@ -11,12 +12,19 @@
 	.mejs-container .mejs-controls {
 		background:transparent;
 	}
-
 {% endblock %}
 {% block content %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<audio id="player" src="/static/media/{{file.filename}}" type="audio/mp3" controls autoplay style="width:100%;"/>
+			<audio id="player" src="/static/media/{{file.filename}}" type="audio/mp3" controls autoplay style="width:100%;" data-mejsoptions='{"alwaysShowControls": true}'>
+				<object>
+					<param name="autostart" value="true">
+					<param name="src" value="/static/media/{{file.filename}}">
+					<param name="autoplay" value="true">
+					<param name="controller" value="true">
+					<embed src="/static/media/{{file.filename}}" controller="true" autoplay="true" autostart="true" type="audio/mp3"></embed>
+				</object>
+			</audio>
 		</div>
 		<div class="panel-body">
 			<span class="badge">{{file.tag}}</span> {{file.desc}}
@@ -33,7 +41,7 @@
 			{% endif %}
 		</ul>
 	</nav>
-    <script>
-        $('audio,video').mediaelementplayer();
-    </script>
+	<script>
+		$('audio').mediaelementplayer();
+	</script>
 {% endblock %}

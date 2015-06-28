@@ -7,14 +7,13 @@
 {% block content %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<audio id="player" controls autoplay>
-				<source id="audio_src" src="/static/media/{{file.filename}}" type="audio/mpeg">
+			<audio id="player" src="/static/media/{{file.filename}}" type="audio/mp3" controls autoplay>
 				<object>
 					<param name="autostart" value="true">
 					<param name="src" value="/static/media/{{file.filename}}">
 					<param name="autoplay" value="true">
-					<param name="controller" value="false">
-					<embed src="/static/media/{{file.filename}}" controller="false" autoplay="true" autostart="true" type="audio/mpeg"></embed>
+					<param name="controller" value="true">
+					<embed src="/static/media/{{file.filename}}" controller="true" autoplay="true" autostart="true" type="audio/mp3"></embed>
 				</object>
 			</audio>
 		</div>

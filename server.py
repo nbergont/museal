@@ -161,7 +161,10 @@ def list_page():
 def play_page(id):
 	f = getFile(id)
 	if f :
-		return render_template ('playjs.html', file=f, next_id=getNextFileId(f["tag"]), previous_id=getPreviousFileId(f["tag"]), title=get_title())
+		if conf["options"]['native_html5_audio'] :
+			return render_template ('play.html', file=f, next_id=getNextFileId(f["tag"]), previous_id=getPreviousFileId(f["tag"]), title=get_title())
+		else:
+			return render_template ('playjs.html', file=f, next_id=getNextFileId(f["tag"]), previous_id=getPreviousFileId(f["tag"]), title=get_title())
 	return redirect('list')
 
 
@@ -199,6 +202,7 @@ def set_options_post():
 	if isAdmin() and request.method == 'POST':
 		conf["options"]['home_title'] = request.form['home_title']
 		conf["options"]['hostspot_name'] = request.form['hostspot_name']
+		conf["options"]['native_html5_audio'] = request.form.has_key('native_html5_audio')
 		change_hostapd_ssid(conf["options"]['hostspot_name'])
 		save_conf()
 
