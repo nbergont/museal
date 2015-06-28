@@ -46,6 +46,13 @@ def get_title():
 	global conf
 	return conf["options"]["home_title"]
 
+def getSection(id):
+	global conf
+	for sec in conf["sections"]:
+		if sec['id'] == id:
+			return sec
+	return None
+	
 def getFile(id):
 	global conf
 	for sec in conf["sections"]:
@@ -299,6 +306,16 @@ def add_section_post():
 		save_conf()
 	return redirect('admin')
 
+@app.route('/rename_section/<int:id>', methods=['GET', 'POST'])
+def rename_section(id):
+	if isAdmin():
+		sec = getSection(id)
+		if request.method == 'POST':
+			sec['label'] = request.form['label']
+			save_conf()
+		else:
+			return render_template ('rename_section.html', section=sec, title=get_title())
+	return redirect('admin')
 
 #QRCode generator
 @app.route('/qrcode/<int:id>')
