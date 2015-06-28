@@ -286,11 +286,11 @@ def edit_page(id):
 			return render_template ('edit.html', file=f, title=get_title())
 	return redirect('login')
 
-@app.route('/upload')
-def upload_page():
+@app.route('/upload/<int:id>')
+def upload_page(id):
 	global conf
 	if isAdmin():
-		return render_template ('upload.html', sections=conf["sections"], title=get_title())
+		return render_template ('upload.html', sections=conf["sections"],select_id=id, title=get_title())
 	return redirect('login')
 
 @app.route('/upload_file', methods=['POST'])
