@@ -52,13 +52,21 @@ def getSection(id):
 		if sec['id'] == id:
 			return sec
 	return None
-	
+
 def getFile(id):
 	global conf
 	for sec in conf["sections"]:
 		for file in sec["files"]:
 			if file['id'] == id:
 				return file
+	return None
+
+def getFileSection(id):
+	global conf
+	for sec in conf["sections"]:
+		for file in sec["files"]:
+			if file['id'] == id:
+				return sec
 	return None
 
 def getNextFileId(tag):
@@ -93,6 +101,32 @@ def genFileId():
 			if id < file['id']:
 				id = file['id']
 	return id + 1
+
+def addSection(label):
+	global conf
+	id = genSecId()
+	conf['sections'].append({'label':label, 'id':id, 'files':[]})
+	return id
+
+def addFile(section_id, label, tag, description, filename):
+	sec = getSection(section_id)
+	id = genFileId()
+	sec['files'].append({'label':label,'tag':tag,'desc':description,'filename':filename, 'type': 'audio', 'id':id})
+	return id
+
+def remove_file(id):
+	f = getFile(id)
+	filename = os.path.join(app.config['UPLOAD_FOLDER'], f['filename'])
+	if os.path.exists(filename):
+		os.remove(filename)
+	sec = getFileSection(id)
+	sec["files"].remove(f)
+
+def remove_section(id):
+	sec = getFileSection(id)
+	for file in sec["files"]:
+		remove_file(file['id'])
+	conf["sections"].remove(sec)
 
 def hash_password(password):
 	return hashlib.sha224(app.secret_key + password).hexdigest()
@@ -192,34 +226,19 @@ def set_login_post():
 
 @app.route ('/remove/<int:id>')
 def remove_action(id):
-	global conf
 	if isAdmin():
-		for sec in conf["sections"]:
-			for file in sec["files"]:
-				if id == file['id']:
-					filename = os.path.join(app.config['UPLOAD_FOLDER'], file['filename'])
-					if os.path.exists(filename):
-						os.remove(filename)
-					sec["files"].remove(file)
-					save_conf()
-					return redirect('admin')
+		remove_file(id)
+		save_conf()
+		return redirect('admin')
 	return redirect('login')
 
 @app.route ('/remove_section/<int:id>')
 def remove_sec_action(id):
-	global conf
 	if isAdmin():
-		for sec in conf["sections"]:
-			if id == sec['id']:
-				for file in sec["files"]:
-					filename = os.path.join(app.config['UPLOAD_FOLDER'], file['filename'])
-					if os.path.exists(filename):
-						os.remove(filename)
-				conf["sections"].remove(sec)
-				save_conf()
-				return redirect('admin')
+		remove_section(id)
+		save_conf()
+		return redirect('admin')
 	return redirect('login')
-
 
 @app.route ('/move_up/<int:id>')
 def move_up_action(id):
@@ -251,7 +270,6 @@ def move_down_action(id):
 
 @app.route ('/edit/<int:id>', methods=['GET', 'POST'])
 def edit_page(id):
-	global conf
 	if isAdmin():
 		f=getFile(id)
 		if request.method == 'POST':
@@ -273,7 +291,6 @@ def upload_page():
 
 @app.route('/upload_file', methods=['POST'])
 def upload_file_post():
-	global conf
 	if isAdmin() and request.method == 'POST':
 		section_id = int(request.form['section_id'])
 		tag = int(request.form['tag'])
@@ -281,17 +298,13 @@ def upload_file_post():
 		description = request.form['description']
 		file = request.files['file']
 
-		print section_id
-
 		if file and allowed_ext(file.filename, ['mp3']):
 			filename = uuid.uuid4().hex + '.mp3' #Generate filename
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-			for sec in conf["sections"]:
-				if sec['id'] == section_id:
-					sec['files'].append({'label':label,'tag':tag,'desc':description,'filename':filename, 'type': 'audio', 'id':genFileId()})
-					save_conf()
-					return redirect('admin')
+			addFile(section_id, label, tag, description, filename)
+			save_conf()
+			return redirect('admin')
 
 		return render_template ('error.html', msg='Wrong file type', title=get_title())
 
@@ -299,10 +312,9 @@ def upload_file_post():
 
 @app.route('/add_section', methods=['POST'])
 def add_section_post():
-	global conf
 	if isAdmin() and request.method == 'POST':
 		label = request.form['label']
-		conf['sections'].append({'label':label, 'id':genSecId(), 'files':[]})
+		addSection(label)
 		save_conf()
 	return redirect('admin')
 
