@@ -69,20 +69,24 @@ def getFileSection(id):
 				return sec
 	return None
 
-def getNextFileId(tag):
+def getNextFileId(id):
 	global conf
-	for sec in conf["sections"]:
-		for file in sec["files"]:
-			if file['tag'] == tag+1:
-				return file['id']
+	sec = getFileSection(id)
+	tag = getFile(id)["tag"]
+	
+	for file in sec["files"]:
+		if file['tag'] == tag+1:
+			return file['id']
 	return None
 
-def getPreviousFileId(tag):
+def getPreviousFileId(id):
 	global conf
-	for sec in conf["sections"]:
-		for file in sec["files"]:
-			if file['tag'] == tag-1:
-				return file['id']
+	sec = getFileSection(id)
+	tag = getFile(id)["tag"]
+	
+	for file in sec["files"]:
+		if file['tag'] == tag-1:
+			return file['id']
 	return None
 
 def genSecId():
@@ -162,9 +166,9 @@ def play_page(id):
 	f = getFile(id)
 	if f :
 		if conf["options"]['native_html5_audio'] :
-			return render_template ('play.html', file=f, next_id=getNextFileId(f["tag"]), previous_id=getPreviousFileId(f["tag"]), title=get_title())
+			return render_template ('play.html', file=f, next_id=getNextFileId(id), previous_id=getPreviousFileId(id), title=get_title())
 		else:
-			return render_template ('playjs.html', file=f, next_id=getNextFileId(f["tag"]), previous_id=getPreviousFileId(f["tag"]), title=get_title())
+			return render_template ('playjs.html', file=f, next_id=getNextFileId(id), previous_id=getPreviousFileId(id), title=get_title())
 	return redirect('list')
 
 

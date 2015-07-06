@@ -17,9 +17,15 @@
 				</object>
 			</audio>
 		</div>
+		{% if file.desc != "" %}
 		<div class="panel-body">
 			<span class="badge">{{file.tag}}</span> {{file.desc}}
 		</div>
+		{% else %}
+		<div class="panel-body">
+			<span class="badge">{{file.tag}}</span> {{file.label}}
+		</div>
+		{% endif %}
 	</div>
 	<nav>
 		<ul class="pager">
