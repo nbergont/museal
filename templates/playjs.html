@@ -1,8 +1,8 @@
 ﻿{% extends 'base.html' %}
 {% block head %}
-	<script src="/static/mediaelement/mediaelement-and-player.min.js"></script>
-	<link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.min.css"/>
-	
+		<script src="/static/mediaelement/mediaelement-and-player.min.js"></script>
+		<link rel="stylesheet" href="/static/mediaelement/mediaelementplayer.min.css"/>
+		<link rel="stylesheet" href="/static/mediaelement/mejs-skins.css"/>
 {% endblock %}
 {% block css %}
 	.mejs-container {
@@ -16,14 +16,7 @@
 {% block content %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<audio id="player" src="/static/media/{{file.filename}}" type="audio/mp3" controls autoplay style="width:100%;" data-mejsoptions='{"alwaysShowControls": true}'>
-				<object>
-					<param name="autostart" value="true">
-					<param name="src" value="/static/media/{{file.filename}}">
-					<param name="autoplay" value="true">
-					<param name="controller" value="true">
-					<embed src="/static/media/{{file.filename}}" controller="true" autoplay="true" autostart="true" type="audio/mp3">
-				</object>
+			<audio id="player" controls="control" preload="none" src="/static/media/{{file.filename}}" type="audio/mp3" style="width:100%;">
 			</audio>
 		</div>
 		{% if file.desc != "" %}
@@ -48,6 +41,35 @@
 		</ul>
 	</nav>
 	<script>
-		$('audio').mediaelementplayer();
+	jQuery(document).ready(function($) {
+			$('audio').mediaelementplayer({
+				loop: false,
+				// enables Flash and Silverlight to resize to content size
+				enableAutosize: true,
+				// the order of controls you want on the control bar (and other plugins below)
+				features: ['playpause','progress','volume'],
+				// Hide controls when playing and mouse is not over the video
+				alwaysShowControls: true,
+				// force iPad's native controls
+				iPadUseNativeControls: false,
+				// force iPhone's native controls
+				iPhoneUseNativeControls: false, 
+				// force Android's native controls
+				AndroidUseNativeControls: false,
+				// turns keyboard support on and off for this instance
+				enableKeyboard: false,
+				// when this player starts, it will pause other players
+				pauseOtherPlayers: true,
+				// array of keyboard commands
+				keyActions: [],
+				// path to Flash and Silverlight plugins
+				pluginPath: '/static/mediaelement/',
+				// name of flash file
+				flashName: 'flashmediaelement.swf',
+				// name of silverlight file
+				silverlightName: 'silverlightmediaelement.xap'
+			});
+			
+		});
 	</script>
 {% endblock %}
